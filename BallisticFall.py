@@ -135,7 +135,7 @@ def BallisticFallODE(z, t, param):
        Returns:
            list: Derivatives [d(dist)/dt, d(alt)/dt, d(v_horizontal)/dt, d(v_vertical)/dt].
        """
-    # TODO -- impelement me
+
     # g = param[0]
     # dz = [0, 0, 0, 0]
     # dz[0] = z[2]
@@ -177,7 +177,6 @@ def GenerateBallisticFall(Cd, S, m, hdg0, v0, sim_time):
     #
     # t = np.linspace(0, sim_time, int(np.round(sim_time / 0.1)) + 1)
     #
-    # # TODO -- implement me
     # z_init = [0, 0, np.random.random() * 10, np.random.random() * 2]
     # z = integrate.odeint(BallisticFallODE, z_init, t, args=([g],))
     #

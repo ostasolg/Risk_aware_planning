@@ -7,6 +7,9 @@ from riskmap.BallisticFall import BallisticFall as ballistic_fall
 
 
 class BallisticRiskMap():
+    """
+    Precomputes and queries ballistic-fall risk along a trajectory.
+    """
     def __init__(self, ground_map, aircraft, n_sigma, hdg_samples, num_falls, sim_time, v0, altitude_slices, hdg_sigma):
         self.hdg_samples = np.arange(0, np.pi * 2, 2 * np.pi / hdg_samples)
         self.ground_map = ground_map
@@ -44,10 +47,7 @@ class BallisticRiskMap():
     Returns:
         float risk  # risk induced by potential ballistic fall along the path
     """
-
     def get_risk(self, path):
-
-        # TODO -- implement me
 
         if not path or not path.poses:
             # Handle missing or invalid data
@@ -113,6 +113,9 @@ class BallisticRiskMap():
 
 
     def calculate_risk(self, x, y, impact_map):
+        """
+        Compute expected risk around (x, y) using a given precomputed impact_map.
+        """
 
         # Initialize total risk
         total_risk = 0.0
@@ -150,11 +153,17 @@ class BallisticRiskMap():
 
 
     def p_hit(self, dens_x, gama):
+        """
+        Probability of hit for a given density and impact angle (gamma).
+        """
         A_exp = self.A_exp(gama)
         return dens_x * A_exp
 
 
     def A_exp(self, gama):
+        """
+        Exposed area approximation A_exp(gamma).
+        """
         r_p = 0.2
         r_uav = self.aircraft.r
         hp = 1.8
@@ -164,12 +173,18 @@ class BallisticRiskMap():
 
 
     def M(self, dens_x, E, gama, shelter_at_cell):
+        """
+        Risk multiplier at a cell:
+        """
         p_hit = self.p_hit(dens_x, gama)
         p_casaulty = self.p_casaulty(E, shelter_at_cell)
         return p_hit * p_casaulty
 
 
     def p_casaulty(self, E, shelter_at_cell):
+        """
+        Casualty probability model based on impact energy and shelter.
+        """
         alpha = E
         beta = 34
         S_x = shelter_at_cell
